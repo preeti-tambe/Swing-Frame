@@ -1,78 +1,82 @@
 package view;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Scanner;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import controller.EmployeeDao;
 import model.Employee;
 
 public class MenuView {
 
-	public MenuView()throws ClassNotFoundException, SQLException
+	public MenuView()
 	{
-		int id,a;
-		String name,add;
-		Scanner sc=new Scanner (System.in);
-		boolean l=true;
-		while(l)
-		{
-			System.out.println("\nWELCOME TO COLLEGE MANAGEMENT SYSTEM");
-			System.out.println("1.Insert");
-			System.out.println("2.Update");
-			System.out.println("3.Delete");
-			System.out.println("4.Show");
-			System.out.println("0.EXIT");
-			System.out.println("Enter Your Choice : ");
-			int c = Integer.parseInt(sc.nextLine());
-			
-			EmployeeDao db=new EmployeeDao();
-			
-			switch(c)
-			{
-			case 1:
-				System.out.println("Enter Name : ");
-				name=sc.nextLine();
-				System.out.println("Enter city : ");
-				add=sc.nextLine();
+		JFrame f = new JFrame("Asterisc");
+		int x=60;
+		int xl=30;
+		
+		JLabel lb1=new JLabel("Name : ");
+		lb1.setBounds(xl, 50, 100, 20);
+		
+		JTextField tx=new JTextField();
+		tx.setBounds(x+xl, 50, 100, 20);
+		
+		JLabel lb2=new JLabel("Address : ");
+		lb2.setBounds(xl, 100, 100, 20);
+		
+		JTextField tx1=new JTextField();
+		tx1.setBounds(x+xl, 100, 100, 20);
+		
+		JButton btn=new JButton("SAVE");
+		btn.setBounds(xl,160,100,50);
+		
+		JLabel lb3=new JLabel("Result : ");
+		lb3.setBounds(xl, 100, 100, 20);
+		
+		
+		btn.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
 				
-				Employee e1 = new Employee(name,add);
+				Employee e=new Employee(tx.getText(),tx1.getText());
 				
-				a=db.save(e1);
-				
-				if(a>0)
-					System.out.println("data inserted");
-				else
+				try {
+					int a=new EmployeeDao().save(e);
 					
-					System.out.println("not inserted");
-				
-				
-				break;
-				
-			case 3:
-				System.out.println("Enter Roll : ");
-				id=Integer.parseInt(sc.nextLine());
-				
-				a=db.delete(id);
-				
-				if(a>0)
-					System.out.println("data deleted");
-				else
-					
-					System.out.println("not deleted");
-				
-				break;
-			case 4:
-				a=db.show();
-				if(a>0)
-					System.out.println("data showed");
-				else
-					
-					System.out.println("not showed");
-				break;
-				
+					if(a>0)
+					{
+						lb3.setText("Data Inserted !");
+					}
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
-		}
+		});
 		
+		f.add(lb1);
+		f.add(tx);
+		
+		f.add(lb2);
+		f.add(tx1);
+		f.add(btn);
+		f.add(lb3);
+		f.setSize(340, 300);
+		f.setLayout(null);
+		f.setVisible(true);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+	f.setLocation(dim.width/2-f.getSize().width/2, dim.height/2-f.getSize().height/2);
+	
 	}
 }

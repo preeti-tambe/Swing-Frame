@@ -52,6 +52,11 @@ public class Employee {
 	public String toString() {
 		return "Employee [id=" + id + ", name=" + name + ", add=" + add + "]";
 	}
+
+	public void printStackTrace() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 
